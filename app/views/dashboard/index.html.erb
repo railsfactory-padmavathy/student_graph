@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<h2>Sample Graph</h2>
+<h2>Student Performance Graph</h2>
 <meta charset="utf-8">
 <div class="field">
     <%= link_to 'Create Student', students_path %> 
@@ -99,7 +99,6 @@ $( document ).ready(function() {
 $.ajax({
 			url: "/get_data",
 			type: "GET",
-			data: {"student_id" : $(this).val()},
 			success: function(data) {
             console.log("______________________________________________");
             console.log(data);

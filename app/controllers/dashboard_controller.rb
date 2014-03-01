@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
    if params[:student_id] && !params[:student_id].blank?
     student = Student.find_by_id(params[:student_id]).assessments.last
    else
-    student = Student.find_by_id(1).assessments.last
+    student = Student.first.assessments.last
    end
    assessments = Classroom.first.students.map {|a| a.assessments.last}.compact
    sectionA = Student.where('classroom_id = ? && section_id = ?',1,1).map {|a| a.assessments.last}.compact 

@@ -23,9 +23,9 @@ test:
   timeout: 5000
 
 production:
-  adapter: mysql2
-  database: student
-  username: root
+  adapter: postgresql
+  database: student_analysis
+  username: postgres
   password: root
   pool: 5
   timeout: 5000

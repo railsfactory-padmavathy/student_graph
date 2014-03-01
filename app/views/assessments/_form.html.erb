@@ -1,0 +1,27 @@
+<%= form_for(@assessment,:url => student_assessments_path(@student_id)) do |f| %>
+  <% if @assessment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assessment.errors.count, "error") %> prohibited this classroom from being saved:</h2>
+
+      <ul>
+      <% @assessment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :FA1 %><br>
+    <%= f.text_field :FA1 %>
+  </div>  <div class="field">
+    <%= f.label :FA2 %><br>
+    <%= f.text_field :FA2 %>
+  </div>  <div class="field">
+    <%= f.label :SA1 %><br>
+    <%= f.text_field :SA1 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

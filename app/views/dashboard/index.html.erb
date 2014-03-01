@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<h2>Sample Graph</h2>
+<meta charset="utf-8">
+<div class="field">
+    <%= link_to 'Create Student', students_path %> 
+</div>
+<link href="/assets/nv.d3.css" rel="stylesheet" type="text/css">
+
+<style>
+
+#chart svg {
+  height: 400px;
+}
+
+</style>
+
+
+<div id="chart">
+  <svg></svg>
+</div>
+  <div class="field">
+    <label>Choose Any one</label><br>
+    <%= select_tag "student", options_for_select(Student.all.collect{ |u| [u.name, u.id]})%>
+</div> 
+
+
+
+
+<script src="/assets/d3.v3.js"></script>
+<script src="/assets/nv.d3.js"></script>
+<script src="/assets/core.js"></script>
+<script src="/assets/tooltip.js"></script>
+<script src="/assets/utils.js"></script>
+<script src="/assets/interactiveLayer.js"></script>
+<script src="/assets/legend.js"></script>
+<script src="/assets/axis.js"></script>
+<script src="/assets/scatter.js"></script>
+<script src="/assets/line.js"></script>
+<script src="/assets/lineChart.js"></script>
+
+<script>
+function ndv_chart(graph_data){
+console.log(graph_data);
+nv.addGraph(function() {
+  var chart = nv.models.lineChart()
+        .useInteractiveGuideline(true)
+  ;
+chart.xAxis.tickFormat( function(index) {
+    var labels = ["FA1", "FA2", "SA1"];
+    return labels[index];
+    });
+
+    chart.forceY([0, 100]); 
+		chart.yAxis.axisLabel('Marks')
+
+  d3.select('#chart svg')
+      .datum(data())
+    .transition().duration(500)
+      .call(chart);
+
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+});
+
+function data() {
+ var sin = [{"x":0,"y":graph_data['class_room_result'][0]},{"x":1,"y":graph_data['class_room_result'][1]},{"x":2,"y":graph_data['class_room_result'][2]}],
+      section = [{"x":0,"y":graph_data['sectionA'][0]},{"x":1,"y":graph_data['sectionA'][1]},{"x":2,"y":graph_data['sectionA'][2]}],
+      total = [{"x":0,"y":graph_data['sectionB'][0]},{"x":1,"y":graph_data['sectionB'][1]},{"x":2,"y":graph_data['sectionB'][2]}],
+      student = [{"x":0,"y":graph_data['student'][0]},{"x":1,"y":graph_data['student'][1]},{"x":2,"y":graph_data['student'][2]}];
+
+console.log(JSON.stringify(sin));
+return [
+    {
+      values: sin,
+      key: 'class 9',
+      color: '#ff7f0e'
+    },
+    {
+      values: section,
+      key: '9-a',
+      color: 'red'
+    },
+     {
+      values: total,
+      key: '9-b',
+      color: 'blue'
+    }, {
+      values: student,
+      key: 'Student',
+      color: 'green'
+    }
+  ];
+
+}
+}
+
+$( document ).ready(function() {
+$.ajax({
+			url: "/get_data",
+			type: "GET",
+			data: {"student_id" : $(this).val()},
+			success: function(data) {
+            console.log("______________________________________________");
+            console.log(data);
+				//~ jQuery("#versionsDiv").html(data);
+                ndv_chart(data);
+			}
+		});
+});
+
+$( "#student" ).change(function() {
+	$.ajax({
+			url: "/get_data",
+			type: "GET",
+			data: {"student_id" : $(this).val()},
+			success: function(data) {
+            console.log("______________________________________________");
+            console.log(data);
+				//~ jQuery("#versionsDiv").html(data);
+                ndv_chart(data);
+			}
+		});
+});
+
+</script>

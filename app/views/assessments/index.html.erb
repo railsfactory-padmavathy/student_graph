@@ -1,0 +1,32 @@
+<h1>Listing students</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>FA1</th>
+      <th>FA2</th>
+      <th>SA1</th>
+      <th>Student</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assessments.each do |assessment| %>
+      <tr>
+        <td><%= assessment.FA1 %></td>
+        <td><%= assessment.FA2 %></td>
+        <td><%= assessment.SA1%></td>
+        <td><%= assessment.student.name%></td>
+        <td><%= link_to 'Edit', edit_student_assessment_path(assessment.student_id,assessment.id) %></td>
+        <td><%= link_to 'Destroy', student_assessment_path(assessment.student_id,assessment.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New assessment', new_student_assessment_path(params[:student_id])%>
+<%= link_to 'Back to Student List', students_path%>
